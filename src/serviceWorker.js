@@ -34,7 +34,6 @@ export function register(config) {
     window.addEventListener('load', () => {
       //const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
       const swUrl = `${process.env.PUBLIC_URL}/sw.js`;
-
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
@@ -46,14 +45,103 @@ export function register(config) {
             'This web app is being served cache-first by a service ' +
             'worker. To learn more, visit https://bit.ly/CRA-PWA'
           );
+
+          registerValidSW(swUrl, config);
+
+          console.log('adentro');
+
         });
+
       } else {
         // Is not localhost. Just register service worker
         registerValidSW(swUrl, config);
       }
     });
+
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.userChoice.then(function (choiceResult) {
+        console.log(choiceResult.outcome);
+        if (choiceResult.outcome == 'dismissed') {
+          console.log('User cancelled home screen install');
+        } else {
+          console.log('User added to home screen');
+        }
+      });
+    });
+
+
+    window.addEventListener('sync', event => {
+
+      console.log('Tenemos conexión!!');
+      console.log(event);
+      console.log(event.tag);
+
+    });
+
+
+
+
+    window.addEventListener('online', handleConnection);
+    window.addEventListener('offline', handleConnection);
+
+    function handleConnection() {
+      console.log('handleConnection');
+      if (navigator.onLine) {
+        isReachable(getServerUrl()).then(function (online) {
+          if (online) {
+            // handle online status
+            console.log('online');
+          } else {
+            console.log('no connectivity');
+          }
+        });
+      } else {
+        // handle offline status
+        console.log('offline');
+      }
+    }
+
+    function isReachable(url) {
+      /**
+       * Note: fetch() still "succeeds" for 404s on subdirectories,
+       * which is ok when only testing for domain reachability.
+       *
+       * Example:
+       *   https://google.com/noexist does not throw
+       *   https://noexist.com/noexist does throw
+       */
+      return fetch(url, { method: 'HEAD', mode: 'no-cors' })
+        .then(function (resp) {
+          return resp && (resp.ok || resp.type === 'opaque');
+        })
+        .catch(function (err) {
+          console.warn('[conn test failure]:', err);
+        });
+    }
+
+    function getServerUrl() {
+      return window.location.origin;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }
 }
+
+
+
 
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker

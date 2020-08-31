@@ -12,7 +12,7 @@ const buildSW = () => {
 
             globDirectory: "build",
 
-            globPatterns: ["**/*.{js,css,html,png,svg}"],
+            globPatterns: ["**/*.{js,css,html,png,svg,jpg,ico,json}"],
 
             maximumFileSizeToCacheInBytes: 5 * 1024 * 102,
         })

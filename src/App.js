@@ -1,14 +1,15 @@
 import React from 'react';
-
+import { BrowserRouter } from 'react-router-dom';
 // views
-import Boleta from './views/Boleta'
+import Routes from './Routes'
 
 // styles
 import './styles/estilos.css';
 
 function App() {
   return (
-    <Boleta />
+    <BrowserRouter><Routes /></BrowserRouter>
+
   );
 }
 

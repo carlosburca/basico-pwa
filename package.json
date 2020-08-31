@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-amplify": "^3.0.17",
+    "cl-abstra-auth": "^1.1.4",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -10,6 +12,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "reactstrap": "^8.5.1"
   },
@@ -20,8 +23,9 @@
     "build-sw": "node ./src/sw-build.js",
     "clean-cra-sw": "rm -f build/precache-manifest.*.js && rm -f build/service-worker.js",
     "clean-cra-sw-w": "rimraf  build/precache-manifest.*.js && rimraf  build/service-worker.js",
+    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw",
     "build-w": "react-scripts build && npm run build-sw && npm run clean-cra-sw-w",
-    "build": "react-scripts build && npm run build-sw && npm run clean-cra-sw"
+    "build-zero": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
